@@ -1,6 +1,5 @@
 package lk.ijse.notetaker.controller;
 
-import lk.ijse.notetaker.bo.NoteBo;
 import lk.ijse.notetaker.dto.NoteDTO;
 import lk.ijse.notetaker.service.NoteService;
 import lombok.RequiredArgsConstructor;
