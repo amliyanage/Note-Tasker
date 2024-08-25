@@ -42,9 +42,11 @@ public class NoteServiceBoImpl implements NoteService {
 
     @Override
     public boolean deleteNote(String id) {
-        for (NoteDTO noteDTO : saveNotes) {
+        ListIterator<NoteDTO> noteDTOListIterator = saveNotes.listIterator();
+        while (noteDTOListIterator.hasNext()) {
+            NoteDTO noteDTO = noteDTOListIterator.next();
             if (noteDTO.getId().equals(id)) {
-                saveNotes.remove(noteDTO);
+                noteDTOListIterator.remove();
                 return true;
             }
         }
