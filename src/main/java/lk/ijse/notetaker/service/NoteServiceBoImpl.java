@@ -28,6 +28,15 @@ public class NoteServiceBoImpl implements NoteService {
 
     @Override
     public boolean updateNote(String id ,NoteDTO noteDto) {
+        for (NoteDTO noteDTO : saveNotes){
+            if (noteDTO.getId().equals(id)){
+                noteDTO.setNoteDesc(noteDto.getNoteDesc());
+                noteDTO.setNoteTitle(noteDto.getNoteTitle());
+                noteDTO.setPriorityLevel(noteDto.getPriorityLevel());
+                noteDTO.setCreateDate(noteDto.getCreateDate());
+                return true;
+            }
+        }
         return false;
     }
 

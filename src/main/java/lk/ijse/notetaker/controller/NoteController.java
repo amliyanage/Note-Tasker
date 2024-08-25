@@ -37,8 +37,14 @@ public class NoteController {
     }
 
     @PatchMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO noteDTO) {
+    public ResponseEntity<String> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO noteDTO) {
         boolean isUpdated = noteBo.updateNote(noteId, noteDTO);
+        if (isUpdated){
+            return ResponseEntity.ok("Note Updated Successfully");
+        }
+        else {
+            return ResponseEntity.ok("Note Update Failed");
+        }
     }
 
     @DeleteMapping(value = "/{noteId}")
