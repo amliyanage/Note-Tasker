@@ -1,7 +1,9 @@
 package lk.ijse.notetaker.bo;
 
 import lk.ijse.notetaker.dto.NoteDTO;
+import lk.ijse.notetaker.service.NoteService;
 import lk.ijse.notetaker.util.AppUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

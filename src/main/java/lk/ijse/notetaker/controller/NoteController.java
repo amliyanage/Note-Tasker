@@ -2,6 +2,7 @@ package lk.ijse.notetaker.controller;
 
 import lk.ijse.notetaker.bo.NoteBo;
 import lk.ijse.notetaker.dto.NoteDTO;
+import lk.ijse.notetaker.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,9 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/note")
 @RequiredArgsConstructor
+
 public class NoteController {
     @Autowired
-    private final NoteBo noteBo;
+    private final NoteService noteBo;
 
     //ToDo: CRUD of the Note
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -31,7 +33,7 @@ public class NoteController {
 
     @GetMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public NoteDTO getNote(@PathVariable("noteId") String noteId) {
-        return noteBo.getSelectedNote(noteId);
+        return noteBo.getNote(noteId);
     }
 
     @PatchMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
