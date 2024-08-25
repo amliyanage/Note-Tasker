@@ -1,9 +1,9 @@
-package com.example.notetaker.Utill;
+package lk.ijse.notetaker.util;
 
 import java.util.UUID;
 
 public class AppUtil {
     public static String createNoteId() {
-        return UUID.randomUUID().toString();
+        return "NOTE : " + UUID.randomUUID();
     }
 }

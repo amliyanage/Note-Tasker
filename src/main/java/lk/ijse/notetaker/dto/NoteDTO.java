@@ -1,17 +1,18 @@
-package com.example.notetaker.Dto;
+package lk.ijse.notetaker.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
+import java.io.Serializable;
+
 @NoArgsConstructor
-public class Note {
-    private String noteId;
+@AllArgsConstructor
+@Data
+public class NoteDTO implements Serializable {
+    private String id;
     private String noteTitle;
     private String noteDesc;
     private String priorityLevel;
-    private String createdDate;
+    private String createDate;
 }
