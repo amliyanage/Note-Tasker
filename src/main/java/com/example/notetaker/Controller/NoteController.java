@@ -1,7 +1,10 @@
 package com.example.notetaker.Controller;
 
+import com.example.notetaker.Bo.NoteBo;
 import com.example.notetaker.Dto.Note;
 import com.example.notetaker.Utill.AppUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/note")
+ @RequiredArgsConstructor
 public class NoteController {
+
+    private NoteBo noteBo;
     //ToDo: CRUD of the Note
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody Note noteDTO) {
