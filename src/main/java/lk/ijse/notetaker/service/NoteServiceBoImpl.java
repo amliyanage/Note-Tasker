@@ -1,6 +1,7 @@
 package lk.ijse.notetaker.service;
 
 import lk.ijse.notetaker.dto.NoteDTO;
+import lk.ijse.notetaker.util.AppUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class NoteServiceBoImpl implements NoteService {
 
     @Override
     public String saveNote(NoteDTO noteDto) {
+        noteDto.setId(AppUtil.createNoteId());
         saveNotes.add(noteDto);
         return "Note Saved Successfully";
     }
@@ -36,11 +38,16 @@ public class NoteServiceBoImpl implements NoteService {
 
     @Override
     public NoteDTO getNote(String id) {
+        for (NoteDTO noteDTO : saveNotes) {
+            if (noteDTO.getId().equals(id)) {
+                return noteDTO;
+            }
+        }
         return null;
     }
 
     @Override
     public List<NoteDTO> getAllNotes() {
-        return List.of();
+        return saveNotes;
     }
 }
