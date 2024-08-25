@@ -42,6 +42,12 @@ public class NoteServiceBoImpl implements NoteService {
 
     @Override
     public boolean deleteNote(String id) {
+        for (NoteDTO noteDTO : saveNotes) {
+            if (noteDTO.getId().equals(id)) {
+                saveNotes.remove(noteDTO);
+                return true;
+            }
+        }
         return false;
     }
 

@@ -48,7 +48,13 @@ public class NoteController {
     }
 
     @DeleteMapping(value = "/{noteId}")
-    public void deleteNote(@PathVariable ("noteId") String noteId) {
+    public ResponseEntity<String> deleteNote(@PathVariable ("noteId") String noteId) {
         boolean isDeleted = noteBo.deleteNote(noteId);
+        if (isDeleted){
+            return ResponseEntity.ok("Note Deleted Successfully");
+        }
+        else {
+            return ResponseEntity.ok("Note Delete Failed");
+        }
     }
 }
