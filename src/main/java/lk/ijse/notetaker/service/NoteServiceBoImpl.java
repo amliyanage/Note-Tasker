@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 @Service
 public class NoteServiceBoImpl implements NoteService {
@@ -28,12 +29,11 @@ public class NoteServiceBoImpl implements NoteService {
 
     @Override
     public boolean updateNote(String id ,NoteDTO noteDto) {
-        for (NoteDTO noteDTO : saveNotes){
-            if (noteDTO.getId().equals(id)){
-                noteDTO.setNoteDesc(noteDto.getNoteDesc());
-                noteDTO.setNoteTitle(noteDto.getNoteTitle());
-                noteDTO.setPriorityLevel(noteDto.getPriorityLevel());
-                noteDTO.setCreateDate(noteDto.getCreateDate());
+        ListIterator<NoteDTO> noteDTOListIterator = saveNotes.listIterator();
+        while (noteDTOListIterator.hasNext()) {
+            NoteDTO noteDTO = noteDTOListIterator.next();
+            if (noteDTO.getId().equals(id)) {
+                noteDTOListIterator.set(noteDto);
                 return true;
             }
         }
