@@ -5,6 +5,7 @@ import lk.ijse.notetaker.dto.NoteDTO;
 import lk.ijse.notetaker.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,7 @@ public class NoteController {
         return noteBo.getNote(noteId);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PatchMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO noteDTO) {
         boolean isUpdated = noteBo.updateNote(noteId, noteDTO);
