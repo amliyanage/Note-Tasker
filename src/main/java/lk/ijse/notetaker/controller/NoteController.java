@@ -41,13 +41,8 @@ public class NoteController {
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO noteDTO) {
-        boolean isUpdated = noteBo.updateNote(noteId, noteDTO);
-        if (isUpdated){
-            return ResponseEntity.ok("Note Updated Successfully");
-        }
-        else {
-            return ResponseEntity.ok("Note Update Failed");
-        }
+        return noteBo.updateNote(noteId, noteDTO) ? ResponseEntity.ok("Note Updated Successfully")
+                : new ResponseEntity<>("Note Update Failed", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping(value = "/{noteId}")
@@ -57,7 +52,7 @@ public class NoteController {
             return ResponseEntity.ok("Note Deleted Successfully");
         }
         else {
-            return ResponseEntity.ok("Note Delete Failed");
+            return  new ResponseEntity<>("Note Delete Failed", HttpStatus.BAD_REQUEST);
         }
     }
 }

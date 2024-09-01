@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
 
 @Service
 public class NoteServiceBoImpl implements NoteService {
@@ -30,7 +31,16 @@ public class NoteServiceBoImpl implements NoteService {
 
     @Override
     public boolean updateNote(String id ,NoteDTO noteDto) {
-        noteDao.save(mapping.convertToNoteEntity(noteDto));
+        Optional<NoteEntity> tempNoteEntity = noteDao.findById(id);
+        if (!tempNoteEntity.isPresent()){
+            return false;
+        }
+        else {
+            tempNoteEntity.get().setNoteTitle(noteDto.getNoteTitle());
+            tempNoteEntity.get().setNoteDesc(noteDto.getNoteDesc());
+            tempNoteEntity.get().setCreateDate(noteDto.getCreateDate());
+            tempNoteEntity.get().setPriorityLevel(noteDto.getPriorityLevel());
+        }
         return true;
     }
 
