@@ -3,6 +3,7 @@ package lk.ijse.notetaker.util;
 import lk.ijse.notetaker.dto.NoteDTO;
 import lk.ijse.notetaker.entity.NoteEntity;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class Mapping {
+
+    @Autowired
     private ModelMapper modelMapper;
 
     //matters of NodeEntity and NoteDTO
