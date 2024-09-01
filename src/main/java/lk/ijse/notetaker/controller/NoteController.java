@@ -27,7 +27,7 @@ public class NoteController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO noteDTO) {
-        noteDTO.setId(AppUtil.createNoteId());
+        noteDTO.setNoteId(AppUtil.createNoteId());
         var isSaved = noteBo.saveNote(noteDTO);
         return ResponseEntity.ok(isSaved);
     }

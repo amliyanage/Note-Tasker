@@ -1,8 +1,6 @@
 package lk.ijse.notetaker.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +13,14 @@ import lombok.NoArgsConstructor;
 public class NoteEntity {
 
     @Id
-    private String id;
+    private String NoteId;
     private String noteTitle;
     private String noteDesc;
     private String priorityLevel;
     private String createDate;
+
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private UserEntity user;
+
 }
