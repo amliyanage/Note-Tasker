@@ -2,6 +2,9 @@ package lk.ijse.notetaker.service;
 
 import lk.ijse.notetaker.dao.UserDao;
 import lk.ijse.notetaker.dto.UserDto;
+import lk.ijse.notetaker.util.AppUtil;
+import lk.ijse.notetaker.util.Mapping;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,14 +13,20 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserServiceBoImpl implements UserServiceBo {
 
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private Mapping mapping;
+
     @Override
-    public boolean saveUser(UserDto userDto) {
-        return false;
+    public String saveUser(UserDto userDto) {
+        userDto.setUserId(AppUtil.createUserId());
+        userDao.save(mapping.convertToUserEntity(userDto));
+        return "User Saved Successfully";
     }
 
     @Override
