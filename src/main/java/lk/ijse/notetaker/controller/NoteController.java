@@ -20,7 +20,11 @@ public class NoteController {
     @Autowired
     private final NoteService noteBo;
 
-    //ToDo: CRUD of the Note
+    @GetMapping("health")
+    public String healthCheck() {
+        return "Note Controller is OK";
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO noteDTO) {
         noteDTO.setId(AppUtil.createNoteId());

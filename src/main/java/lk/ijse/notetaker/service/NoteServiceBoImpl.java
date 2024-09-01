@@ -15,6 +15,7 @@ import java.util.ListIterator;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class NoteServiceBoImpl implements NoteService {
 
     @Autowired
