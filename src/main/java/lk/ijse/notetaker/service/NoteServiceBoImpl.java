@@ -36,8 +36,11 @@ public class NoteServiceBoImpl implements NoteService {
 
     @Override
     public boolean deleteNote(String id) {
-        noteDao.deleteById(id);
-        return true;
+        if (noteDao.existsById(id)){
+            noteDao.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

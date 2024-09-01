@@ -2,6 +2,7 @@ package lk.ijse.notetaker.controller;
 
 import lk.ijse.notetaker.dto.NoteDTO;
 import lk.ijse.notetaker.service.NoteService;
+import lk.ijse.notetaker.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ public class NoteController {
     //ToDo: CRUD of the Note
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO noteDTO) {
+        noteDTO.setId(AppUtil.createNoteId());
         var isSaved = noteBo.saveNote(noteDTO);
         return ResponseEntity.ok(isSaved);
     }
