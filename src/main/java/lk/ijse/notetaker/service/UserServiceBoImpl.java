@@ -32,8 +32,8 @@ public class UserServiceBoImpl implements UserServiceBo {
     }
 
     @Override
-    public boolean updateUser(String id, UserDto userDto) {
-        Optional<UserEntity> tempUserEntity = userDao.findById(id);
+    public boolean updateUser(UserDto userDto) {
+        Optional<UserEntity> tempUserEntity = userDao.findById(userDto.getUserId());
         if (tempUserEntity.isEmpty()){
             return false;
         }
