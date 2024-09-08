@@ -58,8 +58,8 @@ public class UserServiceBoImpl implements UserServiceBo {
 
     @Override
     public UserDto getUser(String id) {
-        Optional<UserEntity> user = userDao.findById(id);
-        return user.map(userEntity -> mapping.convertToUserDTO(userEntity)).orElse(null);
+        UserEntity entity = userDao.getUserEntityByUserId(id);
+        return mapping.convertToUserDTO(entity);
     }
 
     @Override
