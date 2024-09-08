@@ -39,12 +39,15 @@ public class UserController {
         buildUserDto.setLastName(lastName);
         buildUserDto.setEmail(email);
         buildUserDto.setPassword(password);
-        buildUserDto.setProfilePic(profilePic);
+        buildUserDto.setProfilePic(base64ProfilePic);
 
         // send to the service layer
         return new ResponseEntity<>(userServiceBo.saveUser(buildUserDto), HttpStatus.OK);
+    }
 
-
+    @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> getUser(@PathVariable ("userId") String userId){
+        return ResponseEntity.ok(userServiceBo.getUser(userId));
     }
 
 }

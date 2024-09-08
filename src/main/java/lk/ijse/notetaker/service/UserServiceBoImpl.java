@@ -2,6 +2,7 @@ package lk.ijse.notetaker.service;
 
 import lk.ijse.notetaker.dao.UserDao;
 import lk.ijse.notetaker.dto.UserDto;
+import lk.ijse.notetaker.entity.UserEntity;
 import lk.ijse.notetaker.util.AppUtil;
 import lk.ijse.notetaker.util.Mapping;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -41,7 +43,8 @@ public class UserServiceBoImpl implements UserServiceBo {
 
     @Override
     public UserDto getUser(String id) {
-        return null;
+        Optional<UserEntity> user = userDao.findById(id);
+        return user.map(userEntity -> mapping.convertToUserDTO(userEntity)).orElse(null);
     }
 
     @Override
