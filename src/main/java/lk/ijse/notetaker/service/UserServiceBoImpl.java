@@ -33,11 +33,26 @@ public class UserServiceBoImpl implements UserServiceBo {
 
     @Override
     public boolean updateUser(String id, UserDto userDto) {
-        return false;
+        Optional<UserEntity> tempUserEntity = userDao.findById(id);
+        if (tempUserEntity.isEmpty()){
+            return false;
+        }
+        else {
+            tempUserEntity.get().setFirstName(userDto.getFirstName());
+            tempUserEntity.get().setLastName(userDto.getLastName());
+            tempUserEntity.get().setEmail(userDto.getEmail());
+            tempUserEntity.get().setPassword(userDto.getPassword());
+            tempUserEntity.get().setProfilePic(userDto.getProfilePic());
+        }
+        return true;
     }
 
     @Override
     public boolean deleteUser(String id) {
+        if (userDao.existsById(id)){
+            userDao.deleteById(id);
+            return true;
+        }
         return false;
     }
 
@@ -49,6 +64,7 @@ public class UserServiceBoImpl implements UserServiceBo {
 
     @Override
     public List<UserDto> getAllUsers() {
-        return List.of();
+        List<UserEntity> userEntityList = userDao.findAll();
+        return mapping.convertToUserDTOList(userEntityList);
     }
 }
