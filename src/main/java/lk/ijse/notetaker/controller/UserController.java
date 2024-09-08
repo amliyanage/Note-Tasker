@@ -64,23 +64,8 @@ public class UserController {
                 , HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateUser(
-            @RequestPart("firstName") String firstName,
-            @RequestPart("lastName") String lastName,
-            @RequestPart("email") String email,
-            @RequestPart("password") String password,
-            @RequestPart("profilePic") String profilePic,
-            @PathVariable("userId") String userId
-    ){
-        var base64ProfilePic = AppUtil.toBase64ProfilePic(profilePic);
-        UserDto buildUserDto = new UserDto();
-        buildUserDto.setFirstName(firstName);
-        buildUserDto.setLastName(lastName);
-        buildUserDto.setEmail(email);
-        buildUserDto.setPassword(password);
-        buildUserDto.setProfilePic(base64ProfilePic);
-
+    @PatchMapping(value = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateUser(@PathVariable("userId") String userId, @RequestBody UserDto buildUserDto){
         return new ResponseEntity<>(
                 userServiceBo.updateUser(userId,buildUserDto)
                         ? "User Updated Successfully"
