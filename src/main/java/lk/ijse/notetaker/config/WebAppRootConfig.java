@@ -29,7 +29,7 @@ public class WebAppRootConfig {
     public DataSource dataSource() {
         var dmds = new DriverManagerDataSource();
         dmds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dmds.setUrl("jdbc:mysql://localhost:3306/noteTaker?createDatabaseIfNotExist=true");
+        dmds.setUrl("jdbc:mysql://localhost:3306/notetraker?createDatabaseIfNotExist=true");
         dmds.setUsername("root");
         dmds.setPassword("Ijse@2024");
         return dmds;
