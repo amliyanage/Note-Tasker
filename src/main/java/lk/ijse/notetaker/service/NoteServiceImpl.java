@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.notetaker.customObj.NoteErrorResponse;
 import lk.ijse.notetaker.customObj.NoteResponse;
 import lk.ijse.notetaker.entity.NoteEntity;
+import lk.ijse.notetaker.exception.DataPersistFailedException;
 import lk.ijse.notetaker.exception.NoteNotFoundException;
 import lk.ijse.notetaker.repository.NoteRepository;
 import lk.ijse.notetaker.dto.impl.NoteDTO;
@@ -28,10 +29,13 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public String saveNote(NoteDTO noteDTO) {
+    public void saveNote(NoteDTO noteDTO) {
         noteDTO.setId(AppUtil.createNoteId());
-        noteRepository.save(mapping.convertTNoteEntity(noteDTO));
-        return "NoteDTO Saved Successfully";
+        var noteEntity = mapping.convertTNoteEntity(noteDTO);
+        var savedNote = noteRepository.save(noteEntity);
+        if (savedNote == null) {
+            throw new DataPersistFailedException("Note Not Saved");
+        }
     }
 
     @Override

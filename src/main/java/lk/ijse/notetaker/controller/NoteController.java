@@ -1,6 +1,7 @@
 package lk.ijse.notetaker.controller;
 
 import lk.ijse.notetaker.customObj.NoteResponse;
+import lk.ijse.notetaker.exception.DataPersistFailedException;
 import lk.ijse.notetaker.exception.NoteNotFoundException;
 import lk.ijse.notetaker.exception.UserNotFoundException;
 import lk.ijse.notetaker.service.NoteService;
@@ -21,15 +22,26 @@ public class NoteController {
     @Autowired
     private final NoteService noteService;
 
-    @GetMapping("/health")
-    public String healthCheck() {
-        return "NoteController is Running";
-    }
+//    @GetMapping("/health")
+//    public String healthCheck() {
+//        return "NoteController is Running";
+//    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createNote(@RequestBody NoteDTO noteDTO) {
-        var isSaved = noteService.saveNote(noteDTO);
-        return ResponseEntity.ok(isSaved);
+    public ResponseEntity<Void> createNote(@RequestBody NoteDTO noteDTO) {
+        if (noteDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else {
+            try {
+                noteService.saveNote(noteDTO);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } catch (DataPersistFailedException e) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
     }
 
     @GetMapping(value ="allNotes", produces = MediaType.APPLICATION_JSON_VALUE)
