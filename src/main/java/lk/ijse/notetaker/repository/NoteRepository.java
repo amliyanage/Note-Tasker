@@ -1,10 +1,9 @@
-package lk.ijse.notetaker.dao;
+package lk.ijse.notetaker.repository;
 
 import lk.ijse.notetaker.entity.NoteEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NoteDao extends JpaRepository<NoteEntity,String> {
-
+public interface NoteRepository extends JpaRepository<NoteEntity, String> {
 }

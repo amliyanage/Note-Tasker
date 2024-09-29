@@ -1,46 +1,38 @@
 package lk.ijse.notetaker.util;
 
-import lk.ijse.notetaker.dto.NoteDTO;
-import lk.ijse.notetaker.dto.UserDto;
+import lk.ijse.notetaker.dto.impl.NoteDTO;
+import lk.ijse.notetaker.dto.impl.UserDTO;
 import lk.ijse.notetaker.entity.NoteEntity;
 import lk.ijse.notetaker.entity.UserEntity;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
+@Component
 public class Mapping {
-
     @Autowired
     private ModelMapper modelMapper;
-
-    //matters of NodeEntity and NoteDTO
-    public NoteDTO convertToNoteDTO(NoteEntity noteEntity){
+    // matters of noteEntity and DTO
+    public NoteDTO convertToNoteDTO(NoteEntity noteEntity) {
         return modelMapper.map(noteEntity, NoteDTO.class);
     }
-
-    //matters of NoteDTO and NoteEntity
-    public NoteEntity convertToNoteEntity(NoteDTO noteDTO){
+    public NoteEntity convertTNoteEntity(NoteDTO noteDTO) {
         return modelMapper.map(noteDTO, NoteEntity.class);
     }
-
-    //matters of List<NoteEntity> and List<NoteDTO>
-    public List<NoteDTO> convertToNoteDTOList(List<NoteEntity> noteEntities){
-        return modelMapper.map(noteEntities, List.class);
+    public List<NoteDTO> convertToNoteDTO(List<NoteEntity> notes) {
+        return modelMapper.map(notes, new TypeToken<List<NoteDTO>>() {}.getType());
     }
-
-    public UserDto convertToUserDTO(UserEntity userEntity){
-        return modelMapper.map(userEntity, UserDto.class);
+    // matters of userEntity and DTO
+    public UserDTO convertToUserDTO(UserEntity userEntity) {
+        return modelMapper.map(userEntity, UserDTO.class);
     }
-
-    public UserEntity convertToUserEntity(UserDto userDto){
-        return modelMapper.map(userDto, UserEntity.class);
+    public UserEntity convertToUserEntity(UserDTO userDTO) {
+        return modelMapper.map(userDTO, UserEntity.class);
     }
-
-    public List<UserDto> convertToUserDTOList(List<UserEntity> userEntities){
-        return modelMapper.map(userEntities, List.class);
+    public List<UserDTO> convertToUserDTO(List<UserEntity> users) {
+        return modelMapper.map(users, new TypeToken<List<UserDTO>>() {}.getType());
     }
 }

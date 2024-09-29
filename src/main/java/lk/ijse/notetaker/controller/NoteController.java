@@ -1,8 +1,10 @@
 package lk.ijse.notetaker.controller;
 
-import lk.ijse.notetaker.dto.NoteDTO;
+import lk.ijse.notetaker.customObj.NoteResponse;
+import lk.ijse.notetaker.exception.NoteNotFoundException;
+import lk.ijse.notetaker.exception.UserNotFoundException;
 import lk.ijse.notetaker.service.NoteService;
-import lk.ijse.notetaker.util.AppUtil;
+import lk.ijse.notetaker.dto.impl.NoteDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,48 +17,52 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/note")
 @RequiredArgsConstructor
-
 public class NoteController {
     @Autowired
-    private final NoteService noteBo;
+    private final NoteService noteService;
 
-    @GetMapping("health")
+    @GetMapping("/health")
     public String healthCheck() {
-        return "Note Controller is OK";
+        return "NoteController is Running";
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO noteDTO) {
-        noteDTO.setNoteId(AppUtil.createNoteId());
-        var isSaved = noteBo.saveNote(noteDTO);
+        var isSaved = noteService.saveNote(noteDTO);
         return ResponseEntity.ok(isSaved);
     }
 
     @GetMapping(value ="allNotes", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<NoteDTO> getAllNotes() {
-        return noteBo.getAllNotes();
+    public ResponseEntity<List<NoteDTO>> getAllNotes() {
+        return new ResponseEntity<>(noteService.getAllNotes(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public NoteDTO getNote(@PathVariable("noteId") String noteId) {
-        return noteBo.getNote(noteId);
+    public NoteResponse getNote(@PathVariable("noteId") String noteId) {
+        return noteService.getSelectedNote(noteId);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @PatchMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO noteDTO) {
-        return noteBo.updateNote(noteId, noteDTO) ? ResponseEntity.ok("Note Updated Successfully")
-                : new ResponseEntity<>("Note Update Failed", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Void> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO noteDTO) {
+        try {
+            noteService.updateNote(noteId, noteDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (NoteNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping(value = "/{noteId}")
-    public ResponseEntity<String> deleteNote(@PathVariable ("noteId") String noteId) {
-        boolean isDeleted = noteBo.deleteNote(noteId);
-        if (isDeleted){
-            return ResponseEntity.ok("Note Deleted Successfully");
-        }
-        else {
-            return  new ResponseEntity<>("Note Delete Failed", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Void> deleteNote(@PathVariable ("noteId") String noteId) {
+        try {
+            noteService.deleteNote(noteId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -1,13 +1,16 @@
 package lk.ijse.notetaker.service;
 
-import lk.ijse.notetaker.dto.NoteDTO;
+import lk.ijse.notetaker.customObj.NoteResponse;
+import lk.ijse.notetaker.dto.impl.NoteDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface NoteService {
-    String saveNote(NoteDTO noteDto);
-    boolean updateNote(String id ,NoteDTO noteDto);
-    boolean deleteNote(String id);
-    NoteDTO getNote(String id);
+    String saveNote(NoteDTO noteDTO);
+    void updateNote(String noteId,NoteDTO noteDTO);
+    void deleteNote(String noteId);
+    NoteResponse getSelectedNote(String noteId);
     List<NoteDTO> getAllNotes();
 }
